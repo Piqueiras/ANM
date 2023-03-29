@@ -4,6 +4,7 @@ subroutine gauss(n,A,b,deter)
     !Subrutina que emplea reducción de Gauss para convertir la matriz en triangular superior
     !En el resto de elementos se guardan los factores de multiplicado, así que la matriz resultante se va a tener que calcular siempre como triangular superior
     !Además se calcula el determinante gracias a los elementos diagonales
+    !Nótese que, por tanto, A queda descompuesta en su factorización LU, de la forma U+L-I (con I la identidad puesto que la diagonal de L se pierde, pero son todos 1s)
     use mod_clreal
     implicit none
     integer,intent(in)::n
@@ -33,6 +34,9 @@ subroutine gauss(n,A,b,deter)
         enddo
         deter = deter * a(k,k)
     enddo
+    if(abs(a(n,n)) < eps ) then
+        stop "Elemento diagonal nulo"
+    end if
     deter = deter * a(n,n)
 end subroutine gauss
 
@@ -56,4 +60,7 @@ subroutine gauss_LU(n,A)
             a(i,k)=z !Guardamos el factor de multiplicación. Por si acaso. Total, la otra opción era ponerlo a 0.
         enddo
     enddo
+    if(abs(a(n,n)) < eps ) then
+        stop "Elemento diagonal nulo"
+    end if
 end subroutine gauss_LU
