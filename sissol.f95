@@ -54,5 +54,20 @@ subroutine descenso(n,A,b,u)
         u(i)=b(i)/a(i,i)
         b(i+1:n)=b(i+1:n)-a(i+1:n,i)*u(i)
     end do
-
 end subroutine descenso
+
+subroutine descenso_L(n,A,b,u)
+    !Esta subrutina se usa para resolver la matriz L que lleva 1 implícitos en la diagonal
+    use mod_clreal
+    implicit none
+
+    integer, intent(in)::n
+    real(clreal), intent(in)::A(n,n)
+    real(clreal), intent(inout)::b(n)
+    real(clreal), intent(out)::u(n)
+    integer::i
+    
+    do i=1,n
+        u(i)=b(i)-DOT_PRODUCT(A(i,1:i-1),u(1:i-1))
+    end do
+end subroutine descenso_L
