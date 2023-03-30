@@ -21,3 +21,26 @@ subroutine prinmat(a,n)
         print*, a(i,:)
     end do
 end subroutine prinmat
+
+subroutine printrig(n, U, D, L)
+    use mod_clreal
+    implicit none
+    integer, intent(in) :: n
+    real(clreal), intent(in) :: U(n-1), D(n), L(n-1)
+    integer :: i, j
+
+    do i = 1, n
+        do j = 1, n
+            if (i == j) then
+            write(*,"(F20.16)", advance="no") D(i)
+            else if (j == i-1) then
+            write(*,"(F20.16)", advance="no") L(i-1)
+            else if (j == i+1) then
+            write(*,"(F20.16)", advance="no") U(i)
+            else
+            write(*,"(F20.16)", advance="no") 0.0
+            end if
+        end do
+        write(*,*)
+    end do
+end subroutine printrig
