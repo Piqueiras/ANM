@@ -71,3 +71,31 @@ subroutine descenso_L(n,A,b,u)
         u(i)=b(i)-DOT_PRODUCT(A(i,1:i-1),u(1:i-1))
     end do
 end subroutine descenso_L
+
+subroutine remonte_tridiagonal(n, Ad, Au, b, u)
+	use mod_clreal
+	implicit none
+	integer :: i
+	integer, intent (in) :: n
+	real (kind = clreal), intent (in) :: Ad(n), Au(n - 1), b(n)
+	real (kind = clreal), intent (out) :: u(n)
+
+	u(n) = b(n) / Ad(n)
+	do i = n-1,1,-1
+		u(i) = (b(i) - Au(i) * u(i+1)) / Ad(i)
+	enddo
+end subroutine remonte_tridiagonal
+
+subroutine descenso_tridiagonal(n, Al, b, u)
+	use mod_clreal
+	implicit none
+	integer :: i
+	integer, intent (in) :: n
+	real (kind = clreal), intent (in) :: Al(n - 1), b(n)
+	real (kind = clreal), intent (out) :: u(n)
+	u(1) = b(1)
+	do i = 2, n
+		u(i) = b(i) - Al(i-1) * u(i-1)
+	enddo
+
+end subroutine descenso_tridiagonal
