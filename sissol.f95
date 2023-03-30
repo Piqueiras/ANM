@@ -97,5 +97,25 @@ subroutine descenso_tridiagonal(n, Al, b, u)
 	do i = 2, n
 		u(i) = b(i) - Al(i-1) * u(i-1)
 	enddo
-
 end subroutine descenso_tridiagonal
+
+subroutine remonte_permutado(n,A,b,u,ip)
+    !Remonte modificado para poder usarlo en Gauss con pivote parcial
+    use mod_clreal
+    implicit none
+    integer,intent(in)::n,ip(n)
+    real(kind=clreal),intent(in)::a(n,n)
+    real(kind=clreal),intent(inout)::b(n)
+    real(kind=clreal),intent(out)::u(n)
+    integer::i,ipi,j
+    real(kind=clreal)::aux
+
+    do i=n,1,-1
+        aux=0.0
+        ipi=ip(i)
+        do j=i+1,n
+            aux=aux+a(ipi,j)*u(j)
+        end do
+        u(i)=(b(ipi)-aux)/a(ipi,i)
+    end do
+end subroutine remonte_permutado
