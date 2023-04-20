@@ -15,7 +15,7 @@ subroutine cholesky(n,A)
         a(j,j)=SQRT(a(j,j))
         !Resto columna
         do i=j+1,n
-            a(i,j)=a(i,j)-sum(a(i,1:j-1)*a(i,1:j-1))
+            a(i,j)=a(i,j)-sum(a(i,1:j-1)*a(j,1:j-1))
             a(i,j)=a(i,j)/a(j,j)
             a(j,i)=0
         enddo
